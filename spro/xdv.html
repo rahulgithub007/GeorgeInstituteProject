@@ -1,0 +1,870 @@
+<?php
+session_start();
+
+if (!isset($_SESSION['usern'])){
+    echo '<script type="text/javascript">'; 
+echo 'window.location.href = "/Login_v2/index.php";';
+echo '</script>';
+die("");
+}
+
+?>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>Patient Registration</title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+<!--===============================================================================================-->
+	
+	<link rel="stylesheet" type="text/css" href="css/main.css">
+	
+	<link rel="stylesheet" type="text/css" href="css/util.css">
+	
+	<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+
+<!-- jQuery library -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+<!-- Latest compiled JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+	<script type="text/javascript" src="https://formden.com/static/cdn/formden.js"></script>
+
+<!-- Special version of Bootstrap that is isolated to content wrapped in .bootstrap-iso -->
+<link rel="stylesheet" href="https://formden.com/static/cdn/bootstrap-iso.css" />
+
+<!--Font Awesome (added because you use icons in your prepend/append)-->
+<link rel="stylesheet" href="https://formden.com/static/cdn/font-awesome/4.4.0/css/font-awesome.min.css" />
+
+
+
+<style>
+#polo{
+      background-color: #b19cd9;
+ }
+* {
+  box-sizing: border-box;
+}
+
+.centerTable { 
+margin: 0px auto; 
+}
+table {
+  font-family: verdana, sans-serif;
+  border-collapse: collapse;
+  border-left-padding-left: 2px solid black;
+  width: 25%;
+  padding: 50px;
+}
+
+.poss{
+padding-bottom: 25px;
+}
+
+
+hr{
+  border: 1px solid ;
+  padding: 0px 20px;
+}
+
+.thirdtab{
+border-spacing: 15px;
+}
+
+td, th,tr {
+  font-family: verdana, sans-serif;
+  text-align: left;
+  padding: 3px;
+}
+
+tr:nth-child(even) {
+  
+}
+* {
+  box-sizing: border-box;
+}
+
+
+/* Mark input boxes that gets an error on validation: */
+input.invalid {
+  background-color: #ffdddd;
+}
+
+/* Hide all steps by default: */
+.tab {
+  display: none;
+}
+
+button {
+  background-color: #4CAF50;
+  color: #ffffff;
+  border: none;
+  padding: 10px 20px;
+  font-size: 17px;
+  font-family: verdana;
+  cursor: pointer;
+}
+button:hover {
+  opacity: 0.8;
+}
+
+.imgpos{
+float:none;
+padding-top:3px;
+}
+.foot{
+font-family:verdana;
+}
+#prevBtn {
+  background-color: #bbbbbb;
+}
+
+/* Make circles that indicate the steps of the form: */
+.step {
+  height: 15px;
+  width: 15px;
+  margin: 0 2px;
+  background-color: #bbbbbb;
+  border: none;  
+  border-radius: 50%;
+  display: inline-block;
+  opacity: 0.5;
+}
+
+.step.active {
+  opacity: 1;
+}
+
+/* Mark the steps that are finished and valid: */
+.step.finish {
+  background-color: #4CAF50;
+}
+@media only screen and (max-width:620px) {
+  /* For mobile phones: */
+  .menu, .main, .right {
+    width:100%;
+  }
+  
+  .foot{
+  font-family:Times New Roman;
+  }
+
+</style>	
+
+
+
+</head>
+
+<body background="images/snow.jpg" onload="myData()">
+	
+	<div class="limiter" >
+	
+	<div class="row" id="polo">
+    <div class="col-sm-3" >
+    <!--<img src="D:/D.S/george/logo.jpg"/>-->
+    </div>
+    <div align="center" class="col-sm-6">
+      <img src="images/df.png">
+    </div>
+	<div class="col-sm-3">
+	</div>
+   </div>
+  <br/>
+
+
+			
+			<div class="row" >
+    <div class="col-sm-3"> 
+      <p><a href="lpsd.php" class="btn btn-colour-1" style="border-radius:15px"><font color="white">Home<font></font></a></p><br/>
+	<p><a href="hell.php" class="btn btn-colour-1" style="border-radius:15px"><font color="white">New Registration</font></a></p><br/>
+	<p><a href="followup.php" class="btn btn-colour-1" style="border-radius:15px"><font color="white">Follow Up</font></a></p><br/>
+	<p><a href="search.php" class="btn btn-colour-1" style="border-radius:15px"><font color="white">Search/Edit</font></font></a></p><br/>
+	<p><a href="exportopt.php" class="btn btn-colour-1" style="border-radius:15px"><font color="white">Export to Excel</font></a></p><br/>
+	<p><a href="#" class="btn btn-colour-1" style="border-radius:15px"><font color="white">Risk Factory Survey</font></a></p><br/>
+	<p><a href="logout.php" class="btn btn-colour-1" style="border-radius:15px"><font color="white">Log Out</font></a></p><br/>
+							<br/>
+     </div>
+
+    <div align="center" class="col-sm-6">
+	<div class="container-login100" style="background: url(images/imgone.jpg);">
+	<div align="left" class="wrap-login100"style="width:475px;" >
+      <span class="login100-form-title p-b-26">
+					<b>Patient Registration</b>
+					</span>
+				<form class="login100-form validate-form" action="/dbrelated/insert.php"  method="post">
+
+					
+					<br/>
+					<!--<span class="login100-form-title p-b-48">
+						<i class="zmdi zmdi-font"></i>
+					</span>-->
+
+			
+			<!--First Section-->
+		<div class="tab">
+				<!--<h3 class="title" align="center"><b><u>Patient's</u> <u>Basic</u> <u>Info</u> </b></u></h3>-->
+				<b><u>Patient</u> <u>Personal</u> <u>Details</u> </b>
+					<br/>
+				<div align="right">	<a href=""  onclick="myDataClear()">Clear Data</a></div>
+					<br/>
+				
+            <div class="wrap-input100 validate-input" >
+					   ID Number<font color="red">*</font><p id="dii"><font color="red"></font></p>
+						<input class="input100" type="text" onchange="idValidate()" name="id" id="idform" >
+						<span class="focus-input100" ></span>
+			</div>	
+            				
+             <div class="wrap-input100 validate-input" >
+			    First Name<font color="red">*</font><p id="ghj"></p>
+						<input class="input100" id="idfn" onchange="fnStorage()" style = "text-transform:capitalize;" type="text" name="fn">
+						<span class="focus-input100" ></span>
+			 </div>     
+			 
+             <div class="wrap-input100 validate-input" >
+					   Last Name<font color="red">*</font> (Family Name)
+						<input class="input100" id="idln" onchange="lnStorage()" style = "text-transform:capitalize;" type="text" name="ln"   >
+						<span class="focus-input100" ></span>
+			 </div> 
+			 
+			 <div class="wrap-input100 validate-input" >
+					   Father / Spouse Name
+						<input class="input100" id="idfsn" onchange="fsnStorage()" style = "text-transform:capitalize;" type="text" name="fsn"   >
+						<span class="focus-input100" ></span>
+			 </div> 
+			
+	         <div class="wrap-input100 validate-input" >
+					   Age<font color="red">*</font>
+						<input class="input100" id="idage" onchange="ageValidate()" type="text" name="ag" >
+						<span class="focus-input100" ></span>
+			 </div> 
+			 
+			<div class="inv">
+				<div>Gender<font color="red">*</font>(Choose any one)</div>
+				<br/>
+    <label class="radio-inline">
+      <input  type="radio" name="optradio" onchange="radStorage()" id="maleid" value="male" > Male
+    </label>
+	<br/>
+	<br/>
+    <label class="radio-inline">
+      <input  type="radio" name="optradio" onchange="radStorage()" id="femaleid" value="female"> Female
+    </label><br/>
+	
+ </div>	 
+	 <br/><br/>
+	
+	<div class="wrap-input100 validate-input" >
+					   Village Name<font color="red">*</font>
+						<input class="input100" type="text" id="idvn" onchange="vnStorage()" style = "text-transform:capitalize;" name="vn" >
+						<span class="focus-input100" ></span>
+			 </div> 
+	
+	         <div class="wrap-input100 validate-input" >
+					   Mobile<font color="red">*</font>(10 digits)
+						<input class="input100" type="text" id="mobid" onchange="mobValidate()" name="mob" >
+						<span class="focus-input100" ></span>
+			 </div>
+			 
+			 
+			 <!--<div class="wrap-input100 validate-input" >
+					   Aadhar Number<font color="red">*</font> (12 digits UID)
+						<input class="input100" type="text" name="an">
+						<span class="focus-input100" ></span>
+			 </div> -->
+			 
+	 		
+        </div>
+
+ 
+  <!-- Second table -->
+
+ 	<div  class="tab">	
+  <!--h3 class="title" align="center"><b><u>Patient's</u> <u>Medical</u> <u>History</u> </b></u></h3>-->
+  <b><u>Patient</u> <u>Investigation</u>  </b>
+					<br/>
+					<br/>
+					
+		<div class="wrap-input100 validate-input" >
+					   Date of Visit<font color="red">*</font>
+						<input class="input100" type="date" id="dovid" onchange="dovStorage()" name="dov">
+						<span class="focus-input100" ></span>
+	   </div> 			
+			
+
+       <div class="wrap-input100 validate-input" >
+					   Years of Disease Diagnosis<font color="red">*</font>
+						<input class="input100" type="text" id="yoid" onchange="yoidValidate()" name="yodd" >
+						<span class="focus-input100" ></span>
+	   </div> 
+
+      
+	 <div class="invupdd">
+				<div>Whether Undergone Any Dialysis?<font color="red">*</font></div>
+				<br/>
+    <label class="radio-inline">
+      <input type="radio" onchange="adialyStorage()" id="adyid" name="optrad" value="yes" > Yes
+    </label>
+	<br/>
+    <label class="radio-inline">
+      <input type="radio" onchange="adialyStorage()" id="adnid" name="optrad" value="no"> No
+    </label>
+  
+ </div>	 
+ 
+	 <br/>
+  
+	   <div class="wrap-input100 validate-input" >
+					   Serum Creatine<font color="red">*</font>
+						<input class="input100" type="text" id="scid" onchange="scidValidate()" name="sc">
+						<span class="focus-input100" ></span>
+	   </div>
+							
+		<div class="wrap-input100 validate-input" >
+					   eGFR<font color="red">*</font>
+						<input class="input100" type="text" id="egfrid" name="egfr" readonly>
+						<span class="focus-input100" ></span>
+	    </div>
+		<div align="right"><button type="button"  onclick="egfrValidate()">Generate eGFR</button></div>
+		<br/>
+	    <div class="wrap-input100 validate-input" >
+					   Systolic Blood Pressure<font color="red">*</font>
+						<input class="input100" type="text" id="sbpid" onchange="sbpidValidate()" name="sbp">
+						<span class="focus-input100" ></span>
+	    </div>
+		
+		<div class="wrap-input100 validate-input" >
+					   Diastolic Blood Pressure<font color="red">*</font>
+						<input class="input100" type="text" id="dbpid" onchange="dbpidValidate()" name="dbp">
+						<span class="focus-input100" ></span>
+	    </div>
+	  
+	    <div class="wrap-input100 validate-input" >
+					   Haemoglobin<font color="red">*</font>
+						<input class="input100" type="text" id="hgid" onchange="hgValidate()" name="hg">
+						<span class="focus-input100" ></span>
+	    </div>
+	  
+	    <div class="wrap-input100 validate-input" >
+					   Urine Protein
+						<input class="input100" id="upid" onchange="upStorage()" type="text" name="up">
+						<span class="focus-input100" ></span>
+	    </div>
+				
+		<div class="invd">
+				<div>Have Undergone Any Other Tests ?<font color="red">*</font></div>
+				<br/>
+	 <label class="radio-inline">
+      <input type="radio" onchange="huadialyStorage()" id="huadyid" onclick="document.getElementById('demo').style.display='block'" name="opad" value="yes" > Yes
+    </label>
+	<br/>
+    <label class="radio-inline">
+      <input type="radio" onchange="huadialyStorage()" id="huadnid" onclick="document.getElementById('demo').style.display='none'" name="opad" value="no"> No
+    </label>
+	<br/>
+	<div id="demo" style="display:none">
+				If yes, Please enter here
+						<textarea class="form-control" rows="3" id="comment" onchange="commentStorage()" name="peh" ></textarea>
+	 </div>
+  
+ </div>	
+	 
+	  
+	 </div>
+	  
+	  <!-- Third Table-->
+	  <div class="tab">
+	  <!--<h3 class="title" align="center"><b><u>Patient's</u> <u>Prescriptions</u> </b></u></h3>-->
+	  <b><u>Patient</u> <u>Medication</u> </b>
+					<br/>
+					<br/>
+	    
+				
+				<!--<div class="form-group">
+						<label for="comment">MEDICATION:</label><br/>
+                        <textarea class="form-control" rows="3" id="comment" name="medone" ></textarea>
+                </div>-->
+				<div class="wrap-input100 validate-input" >
+					   Drug 1
+						<input class="input100" id="doneid" onchange="doneStorage()" type="text" name="drgone">
+						<span class="focus-input100" ></span>
+	   </div> 
+
+	   <div class="wrap-input100 validate-input" >
+					   Drug 2
+						<input class="input100" id="dtwoid" onchange="dtwoStorage()" type="text" name="drgtwo">
+						<span class="focus-input100" ></span>
+	   </div> 
+	  <div class="wrap-input100 validate-input" >
+					   Drug 3
+						<input class="input100" id="dthreeid" onchange="dthreeStorage()" type="text" name="drgthree">
+						<span class="focus-input100" ></span>
+	   </div> 
+	   <div class="wrap-input100 validate-input" >
+					   Drug 4
+						<input class="input100" id="dfourid" onchange="dfourStorage()" type="text" name="drgfour">
+						<span class="focus-input100" ></span>
+	   </div> 
+	   <div class="wrap-input100 validate-input" >
+					   Drug 5
+						<input class="input100" id="dfiveid" onchange="dfiveStorage()" type="text" name="drgfive">
+						<span class="focus-input100" ></span>
+	   </div> 
+      <div class="wrap-input100 validate-input" >
+					   Drug 6
+						<input class="input100" id="dsixid" onchange="dsixStorage()" type="text" name="drgsix">
+						<span class="focus-input100" ></span>
+	   </div> 
+	    
+				<br/>
+	     <div class="invu">
+				<div>Does the patient require to visit again?<font color="red">*</font></div>
+				<br/>
+    <label class="radio-inline">
+      <input type="radio" id="dtpid" onchange="vaoneStorage()" onclick="document.getElementById('idnvo').style.display='block'" name="optra" value="yes" > Yes
+    </label>
+	<br/>
+    <label class="radio-inline">
+      <input type="radio" id="dtprvaid" onchange="vaoneStorage()" onclick="document.getElementById('idnvo').style.display='none'"  name="optra" value="no"> No
+    </label>
+  
+ </div>
+ <br/>
+
+			 <div id="idnvo" class="wrap-input100 validate-input" style="display:none" >
+			
+				If yes, Next Visit On 
+						<input class="input100" id="nvoid" onchange="nvoStorage()" type="date" name="nextvis">
+						<span class="focus-input100" ></span>
+	         </div>
+		         
+						
+						
+	</div>
+   					
+				
+				
+  <div class="pos" align="right">
+	<br/>
+	<br/>
+      <button type="button" id="prevBtn" onclick="nextPrev(-1)">Previous</button>
+      <button type="button" id="nextBtn" onclick="nextPrev(1)">Next</button>
+	  <button type="submit" id="subBtn"  >Submit</button>
+    </div>
+  
+  <br/>
+  <br/>
+						<!-- Circles which indicates the steps of the form: -->
+  <div class="poss" align="center">
+    <span class="step"></span>
+    <span class="step"></span>
+    <span class="step"></span>
+  </div>
+  </form>
+			</div>
+		</div>
+		<br/>
+    <br/>
+    </div>
+    
+	<div class="col-sm-3" >
+ 
+      <div class="foot" align ="center" style="font-family="verdana";">
+	  
+      <h4><b>The George Institute for Global Health</b></h4><br/>
+        
+           <b>311-312, Third Floor, Elegance Tower,<br/> 
+		      Plot No. 8, Jasola District Centre,<br>
+              New Delhi, 110025, India.<br>
+              Tel: <a class="tel" href="tel:+911141588091">+91 11 415 880 91-93 </a><br>
+              Fax: +91 11 415 880 90<br></b>
+	  </div>	
+        <br/>
+		<br/>
+    <div class="foot" align ="center" >
+              <h4><b>Social Links India</b></h4><br/>
+  
+               <a href="https://www.facebook.com/GeorgeInstIN" class="nav-link"><b>Facebook  </b><i class="fa fa-facebook-official" style="font-size:24px;color:blue"></i></a><br/>
+              <br/>
+               
+                <a href="https://twitter.com/GeorgeInstIN" class="nav-link"><b>Twitter   </b><i class="fa fa-twitter" style="font-size:24px;color:#00bfff"></i></a><br/>
+             <br/>
+                
+                <a href="https://www.youtube.com/channel/UCjDJs_p9UIpomIcbqZuCZhw" class="nav-link"><span><b>YouTube  </b> <i class="fa fa-youtube"style="font-size:24px;color:red"></i></span></a>
+              
+		</div>
+
+
+	
+	</div>
+	</div>
+   </div>
+			
+			
+		
+			
+	
+
+	<div id="dropDownSelect1"></div>
+
+<script>
+var currentTab = 0; // Current tab is set to be the first tab (0)
+showTab(currentTab); // Display the current tab
+
+function showTab(n) {
+  // This function will display the specified tab of the form...
+  var x = document.getElementsByClassName("tab");
+  x[n].style.display = "block";
+  //... and fix the Previous/Next buttons:  
+  if (n == 0) {
+    document.getElementById("prevBtn").style.display = "none";
+	document.getElementById("subBtn").style.display = "none";
+  } else {
+    document.getElementById("prevBtn").style.display = "inline";
+	document.getElementById("nextBtn").style.display = "inline";
+	document.getElementById("subBtn").style.display = "none";
+  }
+  if (n == (x.length - 1)) {
+    document.getElementById("nextBtn").style.display = "none";
+	document.getElementById("subBtn").style.display = "inline";
+  } else {
+    document.getElementById("nextBtn").innerHTML = "Next";
+  }
+  //... and run a function that will display the correct step indicator:
+  fixStepIndicator(n)
+}
+
+function nextPrev(n) {
+  // This function will figure out which tab to display
+  var x = document.getElementsByClassName("tab");
+  // Exit the function if any field in the current tab is invalid:
+ // if (n == 1 && !validateForm()) return false;
+  // Hide the current tab:
+  x[currentTab].style.display = "none";
+  // Increase or decrease the current tab by 1:
+  currentTab = currentTab + n;
+  // if you have reached the end of the form...
+  if (currentTab >= x.length) {
+    // ... the form gets submitted:
+    document.getElementById("regForm").submit();
+    return false;
+  }
+  // Otherwise, display the correct tab:
+  showTab(currentTab);
+}
+
+/*function validateForm() {
+  // This function deals with validation of the form fields
+  var x, y, i, valid = true;
+  x = document.getElementsByClassName("tab");
+  y = x[currentTab].getElementsByTagName("input");
+  // A loop that checks every input field in the current tab:
+  for (i = 0; i < y.length; i++) {
+    // If a field is empty...
+    if (y[i].value == "") {
+      // add an "invalid" class to the field:
+      y[i].className += " invalid";
+      // and set the current valid status to false
+      valid = false;
+    }
+  }
+  // If the valid status is true, mark the step as finished and valid:
+  if (valid) {
+    document.getElementsByClassName("step")[currentTab].className += " finish";
+  }
+  return valid; // return the valid status
+}*/
+
+function fixStepIndicator(n) {
+  // This function removes the "active" class of all steps...
+  var i, x = document.getElementsByClassName("step");
+  for (i = 0; i < x.length; i++) {
+    x[i].className = x[i].className.replace(" active", "");
+  }
+  //... and adds the "active" class on the current step:
+  x[n].className += " active";
+}
+
+function mobValidate(){
+  var mof=document.getElementById("mobid").value;
+  localStorage.setItem("mobws", mof);
+  if(mof=="" || mof.length!==10 || isNaN(mof)){
+     alert("Mobile Number is Mandatory. It should contain only Numbers and exactly 10 digits ");
+  }
+  }
+
+ function ageValidate(){
+	var fnval=document.getElementById("idage").value;
+	localStorage.setItem("agews", fnval);
+	if(fnval=="" || isNaN(fnval) || fnval.length>3 || fnval<=0){
+	    alert("Age is Mandatory. It should contain only Numbers not greater than 3 digits ");
+	}
+	}
+
+ 
+	function idValidate(){
+var str= document.getElementById("idform").value;
+localStorage.setItem("idws", str);
+        var xmlhttp = new XMLHttpRequest();
+        xmlhttp.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+                document.getElementById("dii").innerHTML = this.responseText.fontcolor("red");;
+            }
+        };
+        xmlhttp.open("GET", "getidvaldet.php?q=" + str, true);
+        xmlhttp.send();
+    
+ }
+ 
+function fnStorage(){
+var fnval=document.getElementById("idfn").value;
+localStorage.setItem("fnwb",fnval);
+}
+
+function lnStorage(){
+var lnval=document.getElementById("idln").value;
+localStorage.setItem("lnwb",lnval);
+}
+
+function fsnStorage(){
+var fsnval=document.getElementById("idfsn").value;
+localStorage.setItem("fsnwb",fsnval);
+}
+	
+function radStorage(){
+var radios = document.getElementsByName("optradio"); // list of radio buttons
+
+for(var i=0;i<radios.length;i++){
+  if(radios[i].checked == true){
+    localStorage.setItem("tempgender",radios[i].value);     
+	 //radios[i].checked = true; // marking the required radio as checked
+  }
+}
+}
+
+function vnStorage(){
+var vnval=document.getElementById("idvn").value;
+localStorage.setItem("vnwb",vnval);
+}
+
+ function dovStorage(){
+var dovval=document.getElementById("dovid").value;
+localStorage.setItem("dovwb",dovval);
+}		
+
+function adialyStorage(){
+var radios = document.getElementsByName("optrad"); // list of radio buttons
+
+for(var i=0;i<radios.length;i++){
+  if(radios[i].checked == true){
+    localStorage.setItem("adialval",radios[i].value);     
+	 //radios[i].checked = true; // marking the required radio as checked
+  }
+}
+}
+
+	function yoidValidate(){
+	var yoidval=document.getElementById("yoid").value;
+	localStorage.setItem("yoidwb",yoidval);
+	if(yoidval=="" || isNaN(yoidval) || yoidval.length>2 ){
+	    alert("It should contain only Numbers not greater than 2 digits ");
+	}
+	}	
+	
+function scidValidate(){
+	var scidval=document.getElementById("scid").value;
+	localStorage.setItem("scidwb",scidval);
+	if(scidval=="" || isNaN(scidval) || scidval<0.01 ||scidval>20){
+	    alert("Serum Creatine is Mandatory. It should contain only Numbers, values between 0.01 to 20 ");
+	}
+	}	
+	
+	
+function sbpidValidate(){
+	var sbpidval=document.getElementById("sbpid").value;
+	localStorage.setItem("sbpidwb",sbpidval);
+	if(sbpidval=="" || isNaN(sbpidval) || sbpidval<50 ||sbpidval>300){
+	    alert("Systolic Blood Pressure is Mandatory. It should contain only Numbers, values between 50 to 300 ");
+	}
+	}	
+function dbpidValidate(){
+	var dbpidval=document.getElementById("dbpid").value;
+	localStorage.setItem("dbpidwb",dbpidval);
+	if(dbpidval=="" || isNaN(dbpidval) || dbpidval<30 ||dbpidval>200){
+	    alert("Diastolic Blood Pressure is Mandatory. It should contain only Numbers, values between 30 to 200 ");
+	}
+	}
+	
+	function hgValidate(){
+	var hgidval=document.getElementById("hgid").value;
+	localStorage.setItem("hgidwb",hgidval);
+	if(hgidval=="" || isNaN(hgidval) || hgidval<1 ||hgidval>20){
+	    alert("Haemoglobin should contain only Numbers, values between 1 to 20 ");
+	}
+	}
+		function upStorage(){
+var upval=document.getElementById("upid").value;
+localStorage.setItem("upwb",upval);
+}	
+	
+	function egfrValidate(){
+	var scval=document.getElementById("scid").value;
+	var agval=document.getElementById("idage").value;
+	if(document.getElementById("maleid").checked){
+		var maleval= Math.round(175*(Math.pow(scval, -1.154))*(Math.pow(agval, -0.203)));
+         document.getElementById("egfrid").value=maleval;
+		 localStorage.setItem("maidwb",maleval);
+	}
+	if(document.getElementById("femaleid").checked){
+		var femaleval= Math.round(175*(Math.pow(scval, -1.154))*(Math.pow(agval, -0.203))*0.742);
+		document.getElementById("egfrid").value=femaleval;
+		localStorage.setItem("fmidwb",femaleval);
+	}
+	
+	}
+	
+function huadialyStorage(){
+var radios = document.getElementsByName("opad"); // list of radio buttons
+
+for(var i=0;i<radios.length;i++){
+  if(radios[i].checked == true){
+    localStorage.setItem("huadyval",radios[i].value);     
+	 //radios[i].checked = true; // marking the required radio as checked
+  }
+}
+}
+
+function commentStorage(){
+var comval=document.getElementById("comment").value;
+localStorage.setItem("comvalwb",comval);
+
+}
+
+	   function doneStorage(){
+var doneval=document.getElementById("doneid").value;
+localStorage.setItem("donewb",doneval);
+}		
+ function dtwoStorage(){
+var dtwoval=document.getElementById("dtwoid").value;
+localStorage.setItem("dtwowb",dtwoval);
+}	
+ function dthreeStorage(){
+var dthreeval=document.getElementById("dthreeid").value;
+localStorage.setItem("dthreewb",dthreeval);
+}	
+function dfourStorage(){
+var dfourval=document.getElementById("dfourid").value;
+localStorage.setItem("dfourwb",dfourval);
+}	
+function dfiveStorage(){
+var dfiveval=document.getElementById("dfiveid").value;
+localStorage.setItem("dfivewb",dfiveval);
+}
+function dsixStorage(){
+var dsixval=document.getElementById("dsixid").value;
+localStorage.setItem("dsixwb",dsixval);
+}
+	   
+function vaoneStorage(){
+var radios = document.getElementsByName("optra"); // list of radio buttons
+
+for(var i=0;i<radios.length;i++){
+  if(radios[i].checked == true){
+    localStorage.setItem("nvows",radios[i].value);     
+	 //radios[i].checked = true; // marking the required radio as checked
+  }
+}
+}
+
+
+function nvoStorage(){
+var nvoval=document.getElementById("nvoid").value;
+localStorage.setItem("nvovalwb",nvoval);
+}
+ 
+
+		function myData(){
+  document.getElementById("idform").value = localStorage.getItem("idws");
+    document.getElementById("idfn").value = localStorage.getItem("fnwb");
+	document.getElementById("idln").value = localStorage.getItem("lnwb");
+	 document.getElementById("idfsn").value = localStorage.getItem("fsnwb");
+	 if(localStorage.getItem("tempgender")=="male"){
+document.getElementById("maleid").checked=true;
+} 
+if(localStorage.getItem("tempgender")=="female"){
+document.getElementById("femaleid").checked=true;
+}
+	 
+	 document.getElementById("idage").value = localStorage.getItem("agews");
+	  document.getElementById("idvn").value = localStorage.getItem("vnwb");
+	   document.getElementById("mobid").value = localStorage.getItem("mobws");
+	    document.getElementById("dovid").value = localStorage.getItem("dovwb");
+		document.getElementById("yoid").value = localStorage.getItem("yoidwb");
+		
+      if(localStorage.getItem("adialval")=="yes"){
+	  document.getElementById("adyid").checked=true;
+	 }
+	 if(localStorage.getItem("adialval")=="no"){
+	  document.getElementById("adnid").checked=true;
+	 }
+	  
+	   document.getElementById("scid").value = localStorage.getItem("scidwb");
+	    document.getElementById("sbpid").value = localStorage.getItem("sbpidwb");
+		 document.getElementById("hgid").value = localStorage.getItem("hgidwb");
+		  document.getElementById("dbpid").value = localStorage.getItem("dbpidwb");
+		  if(localStorage.getItem("mwb")=="true"){
+	  document.getElementById("egfrid").value = localStorage.getItem("maidwb");
+	 }
+	 if(localStorage.getItem("femwb")=="true"){
+	  document.getElementById("egfrid").value = localStorage.getItem("fmidwb");
+	 }
+		   document.getElementById("upid").value = localStorage.getItem("upwb");
+		   
+		if(localStorage.getItem("huadyval")=="yes"){
+	  document.getElementById("huadyid").checked=true;
+	  document.getElementById("demo").style.display = "block";
+	 }
+	 if(localStorage.getItem("huadyval")=="no"){
+	  document.getElementById("huadnid").checked=true;
+	 }
+     	document.getElementById("comment").value = localStorage.getItem("comvalwb");
+	 document.getElementById("doneid").value = localStorage.getItem("donewb");
+	  document.getElementById("dtwoid").value = localStorage.getItem("dtwowb");
+	   document.getElementById("dthreeid").value = localStorage.getItem("dthreewb");
+	    document.getElementById("dfourid").value = localStorage.getItem("dfourwb");
+     document.getElementById("dfiveid").value = localStorage.getItem("dfivewb");
+     document.getElementById("dsixid").value = localStorage.getItem("dsixwb");
+	 
+	  if(localStorage.getItem("nvows")=="yes"){
+	  document.getElementById("dtpid").checked=true;
+	  document.getElementById("idnvo").style.display = "block";
+	 }
+	 if(localStorage.getItem("nvows")=="no"){
+	  document.getElementById("dtprvaid").checked=true;
+	 }
+	 
+	 document.getElementById("nvoid").value = localStorage.getItem("nvovalwb");
+
+}
+
+ function myDataClear(){
+ var retVal = confirm("Are You Sure to Continue ?");
+               if( retVal == true ) {
+                   localStorage.clear();
+                  return true;
+               } else {
+
+                  return false;
+               }
+
+ }
+</script>
+
+
+
+
+  
+
+</body>
+</html>

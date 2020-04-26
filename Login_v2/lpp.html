@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>Landing Page</title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	
+	<link rel="icon" type="image/png" href="images/icons/favicon.ico"/>
+	<script src="https://cdn.zingchart.com/zingchart.min.js"></script>
+
+	<script type="text/javascript" src="js/jquery.min.js"></script>
+<script type="text/javascript" src="js/Chart.min.js"></script>
+<script src="/assets/js/material-bootstrap.js"></script>
+<link href="https://unpkg.com/basscss@7.1.1/css/basscss.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link href="vendor/mdi-font/css/material-design-iconic-font.min.css" rel="stylesheet" media="all">
+    <link href="vendor/font-awesome-4.7/css/font-awesome.min.css" rel="stylesheet" media="all">
+    <!-- Font special for pages-->
+    <link href="https://fonts.googleapis.com/css?family=Roboto:100,100i,300,300i,400,400i,500,500i,700,700i,900,900i" rel="stylesheet">
+
+    <!-- Vendor CSS-->
+    <link href="vendor/select2/select2.min.css" rel="stylesheet" media="all">
+    <link href="vendor/datepicker/daterangepicker.css" rel="stylesheet" media="all">
+
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="vendor/bootstrap/css/bootstrap.min.css">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="fonts/font-awesome-4.7.0/css/font-awesome.min.css">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="fonts/iconic/css/material-design-iconic-font.min.css">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="vendor/animate/animate.css">
+<!--===============================================================================================-->	
+	<link rel="stylesheet" type="text/css" href="vendor/css-hamburgers/hamburgers.min.css">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="vendor/animsition/css/animsition.min.css">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="vendor/select2/select2.min.css">
+<!--===============================================================================================-->	
+	<link rel="stylesheet" type="text/css" href="vendor/daterangepicker/daterangepicker.css">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="css/util.css">
+	<link rel="stylesheet" type="text/css" href="css/main.css">
+	<script type="text/javascript" src="https://formden.com/static/cdn/formden.js"></script>
+
+<!-- Special version of Bootstrap that is isolated to content wrapped in .bootstrap-iso -->
+<link rel="stylesheet" href="https://formden.com/static/cdn/bootstrap-iso.css" />
+
+<!--Font Awesome (added because you use icons in your prepend/append)-->
+<link rel="stylesheet" href="https://formden.com/static/cdn/font-awesome/4.4.0/css/font-awesome.min.css" />
+
+<style>
+ #myChart {
+      height: 100%;
+      width: 100%;
+    }
+
+</style>
+
+</head>
+
+
+
+
+<body background="images/violett.jpg" >
+
+<?php
+
+$databaseHost = 'localhost';
+$databaseName = 'u183545419_prdb';
+$databaseUsername = 'u183545419_dodo';
+$databasePassword = 'rahul1311';
+
+$conn = new mysqli($databaseHost, $databaseUsername, $databasePassword, $databaseName); 
+ 
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+}
+
+$sql = "SELECT SUM(gender = 'male') as totalmale , SUM(gender = 'female') AS totalfemale, SUM(gender = 'others') AS totalothers FROM pr";
+
+$result = $conn->query($sql);
+
+?>
+
+<div class="row">
+    <div class="col-sm-3" >
+    <!--<img src="D:/D.S/george/logo.jpg"/>-->
+    </div>
+    <div align="center" class="col-sm-6">
+      <img src="images/ghel.jpg" />
+	  <br/><br/><br/>
+	
+    </div>
+	<div class="col-sm-3">
+	</div>
+   </div>
+
+
+
+<div class="row">
+    <div class="col-sm-3"> 
+	<p><a href="hell.php" class="btn btn-colour-1" style="border-radius:15px">New Registration</a></p><br/>
+    <p><a href="update.php" class="btn btn-colour-1" style="border-radius:15px">Edit Details</a></p><br/>
+	<p><a href="search.php" class="btn btn-colour-1" style="border-radius:15px">Search Details</a></p><br/>
+	<p><a href="del.php" class="btn btn-colour-1" style="border-radius:15px">Delete Details</a></p><br/>
+	<p><a href="#" class="btn btn-colour-1" style="border-radius:15px">Follow Up</a></p><br/>
+	<p><a href="#" class="btn btn-colour-1" style="border-radius:15px">Risk Factory Survey</a></p><br/>
+	<p><a href="#" class="btn btn-colour-1" style="border-radius:15px">Export to Excel</a></p>
+							<br/>
+     </div>
+
+    <div align="center" class="col-sm-6">
+	<div id='myChart'></div>
+	
+	<div  class="col-sm-3">
+	    </div>
+  <script>
+    ZC.LICENSE = ["569d52cefae586f634c54f86dc99e6a9", "b55b025e438fa8a98e32482b5f768ff5"];
+    
+ var mc;
+ var fc;
+ var oc;
+ <?php
+ while($row = $result->fetch_assoc()) {
+       $totma= $row["totalmale"];
+       $totfe=$row["totalfemale"];
+       $totothers=$row["totalothers"];
+    }
+ ?>  
+ tm = '<?php echo $totma ;?>';
+  tf = '<?php echo $totfe ;?>';
+   to = '<?php echo $totothers ;?>';
+    
+ 
+    var myConfig = {
+           "graphset": [{
+        "type": "pie3d",
+        "3d-aspect": {
+    depth: 40,
+    true3d: false
+     },
+        "title": {
+          "text": "Gender Count"
+        },
+        "scale-x": {
+          "labels": ["Male", "Female", "Others"]
+        },
+        
+        "series": [{
+          "values": [tm]
+        },
+        {
+          "values": [tf]
+        },
+        {
+          "values": [to]
+        }
+      ]
+      }]
+    };
+ 
+    zingchart.render({
+      id: 'myChart',
+      data: myConfig,
+      height: "100%",
+      width: "100%"
+    });
+  </script>
+  
+</body>
+
+</html>

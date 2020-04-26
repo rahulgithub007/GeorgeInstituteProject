@@ -1,0 +1,59 @@
+
+
+if(is_numeric($haemoglobin) || $haemoglobin<1 || $haemoglobin>20){
+  echo '<script type="text/javascript">'; 
+echo 'alert("Enter Haemoglobin ");';
+echo '</script>';
+die("");    
+}
+
+
+function mobValidate(){
+  var mof=document.getElementById("mobid").value;
+  if(mof=="" || mof.length!==10 || isNaN(mof)){
+     alert("Mobile Number is Mandatory. It should contain only Numbers and exactly 10 digits ");
+  }
+}
+
+ function ageValidate(){
+	var fnval=document.getElementById("idage").value;
+	if(fnval=="" || isNaN(fnval) || fnval.length>3 || fnval<=0){
+	    alert("Age is Mandatory. It should contain only Numbers not greater than 3 digits ");
+	}
+	}
+
+ function yoidValidate(){
+	var yoidval=document.getElementById("yoid").value;
+	if(yoidval=="" || isNaN(yoidval) || yoidval.length>2 ){
+	    alert("It should contain only Numbers not greater than 2 digits ");
+	}
+	}	
+	
+function scidValidate(){
+	var scidval=document.getElementById("scid").value;
+	if(scidval=="" || isNaN(scidval) || scidval<0.01 ||scidval>20){
+	    alert("Serum Creatine is Mandatory. It should contain only Numbers, values between 0.01 to 20 ");
+	}
+	}	
+	
+function sbpidValidate(){
+	var sbpidval=document.getElementById("sbpid").value;
+	if(sbpidval=="" || isNaN(sbpidval) || sbpidval<50 ||sbpidval>300){
+	    alert("Systolic Blood Pressure is Mandatory. It should contain only Numbers, values between 50 to 300 ");
+	}
+	}	
+function dbpidValidate(){
+	var dbpidval=document.getElementById("dbpid").value;
+	if(dbpidval=="" || isNaN(dbpidval) || dbpidval<30 ||dbpidval>200){
+	    alert("Diastolic Blood Pressure is Mandatory. It should contain only Numbers, values between 30 to 200 ");
+	}
+	}
+	
+	function hgValidate(){
+	var hgidval=document.getElementById("hgid").value;
+	if(hgidval=="" || isNaN(hgidval) || hgidval<1 ||hgidval>20){
+	    alert("Haemoglobin should contain only Numbers, values between 1 to 20 ");
+	}
+	}
+	
+
